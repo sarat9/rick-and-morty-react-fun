@@ -34,3 +34,27 @@ npm start
 #
 #
 
+# Deploy to GitHub Pages
+
+```
+"predeploy": "npm run build",
+"deploy": "gh-pages -d build"
+
+```
+
+### How to deploy on pages?
+https://pages.github.com/
+
+### How to deploy React Applications in GitHub Pages?
+https://github.com/gitname/react-gh-pages
+https://dev.to/yuribenjamin/how-to-deploy-react-app-in-github-pages-2a1f
+https://create-react-app.dev/docs/deployment/#github-pages-https-pagesgithubcom
+
+
+
+#### Errors might face
+https://stackoverflow.com/questions/53797321/react-github-pages-deploy-err-aborted-404-not-found
+
+#
+#
+#

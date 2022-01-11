@@ -11,3 +11,19 @@ https://rick-and-morty-272ff.firebaseapp.com/characters
 Memory game - https://juandagarcia.github.io/MemoryGame/pages/game.html
 
 
+
+
+
+#######
+
+debounce
+callback
+folder
+reportWebVitals
+serviceWorker
+https://stackoverflow.com/questions/23123138/perform-debounce-in-react-js
+generic
+    pagination
+    scroll-to-load-more
+isloading
+
