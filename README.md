@@ -37,11 +37,10 @@ npm start
 # Deploy to GitHub Pages
 
 ```
-"predeploy": "npm run build",
-"deploy": "gh-pages -d build"
+npm run predeploy
+npm run deploy
 
 ```
-
 ### How to deploy on pages?
 https://pages.github.com/
 
@@ -50,6 +49,22 @@ https://github.com/gitname/react-gh-pages
 https://dev.to/yuribenjamin/how-to-deploy-react-app-in-github-pages-2a1f
 https://create-react-app.dev/docs/deployment/#github-pages-https-pagesgithubcom
 
+#### In package.json
+```
+"scripts": {
+//...
+"predeploy": "npm run build",
+"deploy": "gh-pages -d build"
+}
+//...
+ "devDependencies": {
+    "gh-pages": "^3.2.3"
+  },
+//....
+"homepage": ".",
+or 
+"homepage": "https://sarat9.github.io/rick-and-morty-react-fun"
+...
 
 
 #### Errors might face
