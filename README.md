@@ -1,9 +1,9 @@
 # Rick and Morty React App
 A Fun React project to demo basic functionalities
 
+![Rick and Morty](https://images6.alphacoders.com/909/thumb-1920-909641.png)
 
-#
-#
+
 #
 
 # API
