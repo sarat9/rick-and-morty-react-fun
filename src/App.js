@@ -7,7 +7,7 @@ import './App.css';
 function App() {
   return (
     <div className='App-root'>
-      <Router>rick-and-morty-react
+      <Router>
         <Switch>
           <Route exact path='/login' component={LoginLayout} />
           <Route path='/rick-and-morty-react-fun' component={HomeLayout} />

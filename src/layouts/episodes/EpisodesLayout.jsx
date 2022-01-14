@@ -1,18 +1,23 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import Grid from '@mui/material/Grid';
-import EpisodeCard from '../../components/Episode/EpisodeCard'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import Pagination from '@mui/material/Pagination';
 import { useSelector, useDispatch } from 'react-redux'
 import { getAllEpisodes, applyEpisodesFilter } from './../../actions/episodesAction'
 import { debounce } from "lodash";
+import usePagination from './../../hooks/usePagination'
+import EpisodeCard from '../../components/Episode/EpisodeCard'
+import PageLoading from '../../components/Loading/PageLoading'
 
 function EpisodesLayout(props) {
   
   const dispatch = useDispatch();
 
   const episodesData = useSelector(state => state.episodes.episodesData)
-  const episodesFilter = useSelector(state => state.episodes.episodesFilter)
+  let episodesFilter = useSelector(state => state.episodes.episodesFilter)
+  let isEpisodesLoading = useSelector(state => state.episodes.isEpisodesLoading)
+  let [page, handlePage, resetPage]  = usePagination(1)
 
 
   const getEpisodeData = (opts={}) => {
@@ -23,15 +28,20 @@ function EpisodesLayout(props) {
     e.preventDefault()
     let name=e.target.name
     let value=e.target.value
-    dispatch(applyEpisodesFilter({...episodesFilter, [name]: value}))
+    resetPage()
+    dispatch(applyEpisodesFilter({...episodesFilter, [name]: value, page: 1}))
   }
 
   const handleSearch = useCallback(debounce(handleSearchFun, 500), []);
 
+  useEffect(()=>{
+      episodesFilter = {...episodesFilter, 'page': page}
+      dispatch(applyEpisodesFilter({...episodesFilter}))
+  },[page])
 
   useEffect(()=>{
     getEpisodeData(episodesFilter)
-  },[episodesFilter])
+  },[])
 
   return (
     <div className='episodes-layout-page'>
@@ -68,8 +78,20 @@ function EpisodesLayout(props) {
               </Grid>
             </>
           })}
+          {!episodesData&&<>
+            <div style={{textAlign: 'center', width: '100%', padding: '10% 0%'}}>
+            <p style={{textAlign:'center'}}>No Results Found!!!</p>
+            </div>
+          </>}
         </Grid>
       </div>
+      <br/><br/>
+      <div style={{margin: 'auto',width: '50%'}}>
+        {episodesData&&episodesData.info&&<>
+          <Pagination count={episodesData.info.pages} page={page} color="primary" onChange={handlePage}/>
+        </>}
+      </div>
+      {isEpisodesLoading&&<><PageLoading /></>}
     </div>
   )
 }

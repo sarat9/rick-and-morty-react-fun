@@ -8,15 +8,18 @@ import TextField from '@mui/material/TextField';
 import Pagination from '@mui/material/Pagination';
 import { debounce } from "lodash";
 import usePagination from './../../hooks/usePagination'
+import PageLoading from '../../components/Loading/PageLoading'
 
 function CharactersLayout(props) {
   
   const [characterData, setCharacterData]  = useState([])
+  const [isCharactersLoading, setCharactersLoading]  = useState(false)
   let [filter, setFilter]  = useState({})
   const [page, handlePage, resetPage]  = usePagination(1)
 
   const getCharactersData = (opts={}) => {
     let params  = ''
+    setCharactersLoading(true)
     Object.keys(opts).forEach(key=>{
       if(opts[key]){ params = params + (params?"&":'') + key+"="+opts[key]}
     })
@@ -26,7 +29,12 @@ function CharactersLayout(props) {
       .then(data=>{
         console.log(data)
         setCharacterData({...data})
+        setCharactersLoading(false)
       })
+      .catch(err=>{
+        setCharacterData(null)
+        setCharactersLoading(false)
+    })
   }
 
   const handleSearchFun = (e) => {
@@ -82,6 +90,11 @@ function CharactersLayout(props) {
               </Grid>
             </>
           })}
+          {!characterData&&<>
+            <div style={{textAlign: 'center', width: '100%', padding: '10% 0%'}}>
+            <p style={{textAlign:'center'}}>No Results Found!!!</p>
+            </div>
+          </>}
         </Grid>
       </div>
       <br/><br/>
@@ -90,6 +103,7 @@ function CharactersLayout(props) {
           <Pagination count={characterData.info.pages} page={page} color="primary" onChange={handlePage}/>
         </>}
       </div>
+      {isCharactersLoading&&<><PageLoading /></>}
     </div>
   )
 }

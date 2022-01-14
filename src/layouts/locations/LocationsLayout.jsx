@@ -3,16 +3,21 @@ import Grid from '@mui/material/Grid';
 import LocationCard from '../../components/Location/LocationCard'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import Pagination from '@mui/material/Pagination';
 import { useSelector, useDispatch } from 'react-redux'
 import { getAllLocations, applyLocationsFilter } from './../../actions/locationsAction'
 import { debounce } from "lodash";
+import usePagination from './../../hooks/usePagination'
+import PageLoading from '../../components/Loading/PageLoading'
 
 function LocationsLayout(props) {
   
   const dispatch = useDispatch();
 
   const locationsData = useSelector(state => state.locations.locationsData)
-  const locationsFilter = useSelector(state => state.locations.locationsFilter)
+  let locationsFilter = useSelector(state => state.locations.locationsFilter)
+  let isLocationsLoading = useSelector(state => state.locations.isLocationsLoading)
+  const [page, handlePage, resetPage]  = usePagination(1)
 
 
   const getLocationsData = (opts={}) => {
@@ -23,15 +28,20 @@ function LocationsLayout(props) {
     e.preventDefault()
     let name=e.target.name
     let value=e.target.value
-    dispatch(applyLocationsFilter({...locationsFilter, [name]: value}))
+    resetPage()
+    dispatch(applyLocationsFilter({...locationsFilter, [name]: value, page: 1}))
   }
 
   const handleSearch = useCallback(debounce(handleSearchFun, 500), []);
 
+  useEffect(()=>{
+    locationsFilter = {...locationsFilter, 'page': page}
+    dispatch(applyLocationsFilter({...locationsFilter}))
+  },[page])
 
   useEffect(()=>{
     getLocationsData(locationsFilter)
-  },[locationsFilter])
+  },[])
 
   return (
     <div className='locations-layout-page'>
@@ -66,8 +76,20 @@ function LocationsLayout(props) {
               </Grid>
             </>
           })}
+          {!locationsData&&<>
+            <div style={{textAlign: 'center', width: '100%', padding: '10% 0%'}}>
+            <p style={{textAlign:'center'}}>No Results Found!!!</p>
+            </div>
+          </>}
         </Grid>
       </div>
+      <br/><br/>
+      <div style={{margin: 'auto',width: '50%'}}>
+        {locationsData&&locationsData.info&&<>
+          <Pagination count={locationsData.info.pages} page={page} color="primary" onChange={handlePage}/>
+        </>}
+      </div>
+      {isLocationsLoading&&<><PageLoading /></>}
     </div>
   )
 }
