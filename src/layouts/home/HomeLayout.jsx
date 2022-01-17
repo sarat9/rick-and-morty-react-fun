@@ -5,6 +5,7 @@ import DashboardLayout from '../dashboard/DashboardLayout'
 import CharactersLayout from '../characters/CharactersLayout'
 import EpisodesLayout from '../episodes/EpisodesLayout'
 import LocationsLayout from '../locations/LocationsLayout'
+import GameLayout from '../game/GameLayout'
 
 function Home(props) {
   return (
@@ -15,6 +16,7 @@ function Home(props) {
       <Route exact path='/characters' component={CharactersLayout} />
       <Route exact path='/episodes' component={EpisodesLayout} />
       <Route exact path='/locations' component={LocationsLayout} />
+      <Route exact path='/game' component={GameLayout} />
         <Route exact path='/' component={DashboardLayout} />
       </div>
     </div>
