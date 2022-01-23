@@ -1,24 +1,35 @@
-import React from 'react'
+import React, {lazy, Suspense, useContext, useEffect} from 'react'
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 import NavBar from './../../components/NavBar/NavBar'
 import DashboardLayout from '../dashboard/DashboardLayout'
 import CharactersLayout from '../characters/CharactersLayout'
 import EpisodesLayout from '../episodes/EpisodesLayout'
 import LocationsLayout from '../locations/LocationsLayout'
-import GameLayout from '../game/GameLayout'
+import ErrorBoundry from '../../components/ErrorBoundry/ErrorBoundry'
+import {ThemeContext} from './../../contexts/ThemeContext'
+
+const GameLayout = React.lazy(()=>import ('../game/GameLayout'))
 
 function Home(props) {
+  const themeContext = useContext(ThemeContext);
+  const { theme, setTheme } = themeContext
+
+
   return (
-    <div className='Home-page'>
-     <NavBar />
-      <br />
-      <div style={{padding:'3% 6%'}}>
-      <Route exact path='/characters' component={CharactersLayout} />
-      <Route exact path='/episodes' component={EpisodesLayout} />
-      <Route exact path='/locations' component={LocationsLayout} />
-      <Route exact path='/game' component={GameLayout} />
-        <Route exact path='/' component={DashboardLayout} />
-      </div>
+    <div className='Home-page' style={{height:'100%', width:'100vw', background:(theme=='light'?'white':'black')}}>
+      <ErrorBoundry>
+      <NavBar />
+        <br />
+          <div style={{padding:'3% 6%'}}>
+          <Route exact path='/characters' component={CharactersLayout} />
+          <Route exact path='/episodes' component={EpisodesLayout} />
+          <Route exact path='/locations' component={LocationsLayout} />
+          <Suspense fallback={<><p>Please wait.. Page is lazy loading...</p></>}>
+            <Route exact path='/game' component={GameLayout} />
+          </Suspense>
+          <Route exact path='/' component={DashboardLayout} />
+        </div>
+      </ErrorBoundry>
     </div>
   )
 }

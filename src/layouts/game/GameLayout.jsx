@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react'
+import React, { useEffect, useCallback, useState } from 'react'
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -10,7 +10,7 @@ import useTimer from './../../hooks/useTimer'
 import GameCard from '../../components/Game/MemoryGame/GameCard'
 import PageLoading from '../../components/Loading/PageLoading'
 import Button from '@mui/material/Button';
-import { useState } from 'react';
+import ErrorBoundry from '../../components/ErrorBoundry/ErrorBoundry'
 
 let  cardList = [1,2,3,4,5,6,7,8]
 cardList = [...cardList, ...cardList]
@@ -91,6 +91,7 @@ function GameLayout(props) {
 
   return (
     <div className='game-layout-page'>
+      <ErrorBoundry>
       <div style={{display:'flex'}}>
         <div style={{width: '60%'}}>
         <Grid container spacing={1}>
@@ -123,6 +124,7 @@ function GameLayout(props) {
           <p>You just need {pendingFlips} correct moves more! You are doing Great!</p>
         </div>
       </div>
+      </ErrorBoundry>
     </div>
   )
 }
