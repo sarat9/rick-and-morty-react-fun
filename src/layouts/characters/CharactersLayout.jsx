@@ -2,7 +2,6 @@ import React, { useEffect, useState, useCallback } from 'react'
 import Grid from '@mui/material/Grid';
 import axios from 'axios'
 import CharacterCard from '../../components/Character/CharacterCard'
-import { setCharactersData } from '../../actions/charactersAction'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Pagination from '@mui/material/Pagination';
