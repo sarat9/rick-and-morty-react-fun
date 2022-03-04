@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 
 /**
  * @function useTimer
- * @description React Hook to use timer in format mm:ss
+ * @description React Hook to use timer in format hh:mm:ss
  * @param {any} defaultClock default time to start timer
  * @param {any} defaultRunningStatus default runing status of timer
  * @returns {any} [time, isTimerRunning, togglePlayPause, handleReset]
